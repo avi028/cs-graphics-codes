@@ -7,9 +7,9 @@
 #include <iostream>
 #include <vector>
 
-#define WIDTH 1000
-#define HEIGHT 1000
-#define GRID_SIZE 20
+#define WIDTH 1050
+#define HEIGHT 1050
+#define GRID_SIZE 10
 
 
 void frameBuffer_size_callBack(GLFWwindow * w , int width , int height){
@@ -27,35 +27,35 @@ float xr,yr,zr, cxr,cyr,czr , xt,yt,zt;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-//!Close the window if the ESC key was pressed
-if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-    glfwSetWindowShouldClose(window, GL_TRUE);
-else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-    xr -= 1.0;
-else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-    xr += 1.0;
-else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
-    yr += 1.0;
-else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
-    yr -= 1.0;
-else if (key == GLFW_KEY_PAGE_UP && action == GLFW_PRESS)
-    zr += 1.0;
-else if (key == GLFW_KEY_PAGE_DOWN && action == GLFW_PRESS)
-    zr -= 1.0;
-// else if (key == GLFW_KEY_P && action == GLFW_PRESS)
-//     enable_perspective = !enable_perspective;   
-else if (key == GLFW_KEY_A  && action == GLFW_PRESS)
-    xt -= 1.0;
-else if (key == GLFW_KEY_D  && action == GLFW_PRESS)
-    xt += 1.0;
-else if (key == GLFW_KEY_W  && action == GLFW_PRESS)
-    yt += 1.0;
-else if (key == GLFW_KEY_S  && action == GLFW_PRESS)
-    yt -= 1.0;        
-else if (key == GLFW_KEY_Q  && action == GLFW_PRESS)
-    zt -= 1.0;
-else if (key == GLFW_KEY_E  && action == GLFW_PRESS)
-    zt += 1.0;   
+    //!Close the window if the ESC key was pressed
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+        xr -= 1.0;
+    else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+        xr += 1.0;
+    else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
+        yr += 1.0;
+    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
+        yr -= 1.0;
+    else if (key == GLFW_KEY_PAGE_UP && action == GLFW_PRESS)
+        zr += 1.0;
+    else if (key == GLFW_KEY_PAGE_DOWN && action == GLFW_PRESS)
+        zr -= 1.0;
+    // else if (key == GLFW_KEY_P && action == GLFW_PRESS)
+    //     enable_perspective = !enable_perspective;   
+    else if (key == GLFW_KEY_A  && action == GLFW_PRESS)
+        xt -= 5.0;
+    else if (key == GLFW_KEY_D  && action == GLFW_PRESS)
+        xt += 5.0;
+    else if (key == GLFW_KEY_W  && action == GLFW_PRESS)
+        yt += 5.0;
+    else if (key == GLFW_KEY_S  && action == GLFW_PRESS)
+        yt -= 5.0;        
+    else if (key == GLFW_KEY_Q  && action == GLFW_PRESS)
+        zt -= 5.0;
+    else if (key == GLFW_KEY_E  && action == GLFW_PRESS)
+        zt += 5.0;   
 }
 
 
@@ -63,40 +63,41 @@ std::vector<glm::vec3> getCubeVertices(float l){
     std::vector<glm::vec3> v;
     
     //xy-b
-    v.push_back(glm::vec3(0.0,0.0,0.0));
-    v.push_back(glm::vec3(l,0.0,0.0));
-    v.push_back(glm::vec3(l,l,0.0));
-    v.push_back(glm::vec3(0.0,l,0.0));
+    v.push_back(glm::vec3(0.0,0.0,0.0)); //0
+    // v.push_back(glm::vec3(0.0,1.0,0.0));
+    v.push_back(glm::vec3(l,0.0,0.0));//1
+    v.push_back(glm::vec3(l,l,0.0));//2
+    v.push_back(glm::vec3(0.0,l,0.0));//3
 
     //xy-f
-    v.push_back(glm::vec3(0.0,0.0,l));
-    v.push_back(glm::vec3(l,0.0,l));
-    v.push_back(glm::vec3(l,l,l));
-    v.push_back(glm::vec3(0.0,l,l));
+    v.push_back(glm::vec3(0.0,0.0,l));//4
+    v.push_back(glm::vec3(l,0.0,l));//5
+    v.push_back(glm::vec3(l,l,l));//6
+    v.push_back(glm::vec3(0.0,l,l));//7
 
-    //yx -l
-    v.push_back(glm::vec3(0.0,0.0,0.0));
-    v.push_back(glm::vec3(0.0,l,0.0));
-    v.push_back(glm::vec3(0.0,l,l));
-    v.push_back(glm::vec3(0.0,0.0,l));
+    // //yx -l
+    // v.push_back(glm::vec3(0.0,0.0,0.0));//0
+    // v.push_back(glm::vec3(0.0,l,0.0));//3
+    // v.push_back(glm::vec3(0.0,l,l));//7
+    // v.push_back(glm::vec3(0.0,0.0,l));//4
 
-    //yz -r
-    v.push_back(glm::vec3(l,0.0,0.0));
-    v.push_back(glm::vec3(l,l,0.0));
-    v.push_back(glm::vec3(l,l,l));
-    v.push_back(glm::vec3(l,0.0,l));
+    // //yz -r
+    // v.push_back(glm::vec3(l,0.0,0.0));//1
+    // v.push_back(glm::vec3(l,l,0.0));//2
+    // v.push_back(glm::vec3(l,l,l));//6
+    // v.push_back(glm::vec3(l,0.0,l));//5
 
-    //zx-d
-    v.push_back(glm::vec3(0.0,0.0,0.0));
-    v.push_back(glm::vec3(0.0,l,0.0));
-    v.push_back(glm::vec3(l,0.0,l));
-    v.push_back(glm::vec3(l,0.0,0.0));
+    // //zx-d
+    // v.push_back(glm::vec3(0.0,0.0,0.0));//0
+    // v.push_back(glm::vec3(0.0,l,0.0));//3
+    // v.push_back(glm::vec3(l,0.0,l));//5
+    // v.push_back(glm::vec3(l,0.0,0.0));//1
 
-    //zx-u
-    v.push_back(glm::vec3(0.0,l,0.0));
-    v.push_back(glm::vec3(0.0,l,l));
-    v.push_back(glm::vec3(l,l,l));
-    v.push_back(glm::vec3(l,l,0.0));
+    // //zx-u
+    // v.push_back(glm::vec3(0.0,l,0.0));//3
+    // v.push_back(glm::vec3(0.0,l,l));//7
+    // v.push_back(glm::vec3(l,l,l));//6
+    // v.push_back(glm::vec3(l,l,0.0));//2
 
     return v;
 }
@@ -109,17 +110,17 @@ unsigned int cubeIndices[]={
     4,5,6,
     6,7,4,
 
-    8,9,10,
-    10,11,8,
+    0,3,7,
+    7,4,0,
 
-    12,13,14,
-    14,15,12,
+    1,2,6,
+    6,5,1,
 
-    16,17,18,
-    18,19,16,
+    0,3,5,
+    5,1,0,
 
-    20,21,22,
-    22,23,20
+    3,7,6,
+    6,2,3
 };
 
 void init(){
@@ -130,10 +131,12 @@ void init(){
 }
 
 float check(float *a){
-    if(*a>=GRID_SIZE)
-        *a=GRID_SIZE-1;
-    else if(*a<0.0)
-        *a=0.0;
+    float c = (GRID_SIZE*5.0)/2;
+    std::cout<<*a<<std::endl;
+    if(*a>c)
+        *a=c;
+    else if(*a<=(-c+5.0))
+        *a=(-c+5.0);
 
     return *a;
 }
@@ -252,21 +255,21 @@ int main(){
 
     for(int i=0;i<=gridlen;i++){
         for(int j=0;j<=gridlen;j++){
-            x=i*1.0/(gridlen+1);
-            y=j*1.0/(gridlen+1);
-            z=0*1.0/(gridlen+1);
+            x=i*5.0;
+            y=j*5.0;
+            z=0*5.0;
             vxy.push_back(glm::vec3(x,y,z));
             vxy.push_back(glm::vec3(1.0,1.0,1.0));
 
-            x=0*1.0/(gridlen+1);
-            y=i*1.0/(gridlen+1);
-            z=j*1.0/(gridlen+1);
+            x=0*5.0;
+            y=i*5.0;
+            z=j*5.0;
             vyz.push_back(glm::vec3(x,y,z));
             vyz.push_back(glm::vec3(1.0,1.0,1.0));
 
-            x=j*1.0/(gridlen+1);
-            y=0*1.0/(gridlen+1);
-            z=i*1.0/(gridlen+1);
+            x=j*5.0;
+            y=0*5.0;
+            z=i*5.0;
             vzx.push_back(glm::vec3(x,y,z));
             vzx.push_back(glm::vec3(1.0,1.0,1.0));
         }
@@ -333,14 +336,15 @@ int main(){
     // cube
     glBindVertexArray(vaoCube);
     glBindBuffer(GL_ARRAY_BUFFER,vboCube);
-    std::vector<glm::vec3> vc= getCubeVertices(1.0/(gridlen+1));
+
+    std::vector<glm::vec3> vc= getCubeVertices(5.0);
 
     glBufferData(GL_ARRAY_BUFFER,vc.size()*sizeof(glm::vec3),vc.data(),GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,eboCube);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(cubeIndices),cubeIndices,GL_STATIC_DRAW);
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(float),0);
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,3*sizeof(float),0);
+    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,0,0);
     glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -348,35 +352,36 @@ int main(){
 
     glm::mat4 modelRotation = glm::mat4(1.0f);
 
-    float c = (gridlen/2)*1.0/(gridlen+1);
-    float glen = 1.0/(gridlen+1);
+    float c = (gridlen/2)*5.0;
+    // float glen = 1.0/(gridlen+1);
 
     glm::mat4 modelxy = glm::mat4(1.0f);
     // modelB = glm::rotate(modelB, glm::radians(-60.0f),glm::vec3(1.0f, 0.0f, 0.0f));
-    modelxy = glm::translate(modelxy,glm::vec3(0.0,0.0,0.0));
+    modelxy = glm::translate(modelxy,glm::vec3(-c,-c,-c));
 
     glm::mat4 modelyzl = glm::mat4(1.0f);
     // modelL = glm::rotate(modelL, glm::radians(45.0f),glm::vec3(0.0f, 1.0f, 0.0f));
-    modelyzl = glm::translate(modelyzl,glm::vec3(0.0,0.0,0.0));
+    modelyzl = glm::translate(modelyzl,glm::vec3(-c,-c,-c));
 
     glm::mat4 modelyzr = glm::mat4(1.0f);
     // modelR = glm::rotate(modelR, glm::radians(-45.0f),glm::vec3(0.0f, 1.0f, 0.0f));
-    modelyzr = glm::translate(modelyzr,glm::vec3(2*c,0.0,0.0));
+    modelyzr = glm::translate(modelyzr,glm::vec3(c,-c,-c));
 
     glm::mat4 modelzx = glm::mat4(1.0f);
     // modelT = glm::rotate(modelT, glm::radians(-45.0f),glm::vec3(0.0f, 0.0f, 1.0f));
-    modelzx = glm::translate(modelzx,glm::vec3(0.0,0.0,0.0));
+    modelzx = glm::translate(modelzx,glm::vec3(-c,-c,-c));
 
     glm::mat4 modelCube = glm::mat4(1.0f);
     // modelT = glm::rotate(modelT, glm::radians(-45.0f),glm::vec3(0.0f, 0.0f, 1.0f));
 
     //glm::mat4(1.0f);//
-    glm::mat4 view = glm::lookAt(glm::vec3(0.0,0.0,-3.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));;
+    glm::mat4 view = glm::lookAt(glm::vec3(0.0,0.0,-1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));;
     // note that we’re translating the scene in the reverse direction
     // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
     //glm::mat4(1.0f);//
 
-    glm::mat4 projection = glm::ortho(-1.0, 1.0, -1.0, 1.0, -6.0, 6.0);;
+    glm::mat4 projection = glm::ortho(-50.0, 50.0, -50.0, 50.0, -50.0, 50.0);;
+    // glm::mat4 projection = glm::ortho(-10.0*gridlen, 10.0*gridlen, -10.0*gridlen, 10.0*gridlen, -100.0, 100.0);;
     // glm::mat4 projection =  glm::frustum(-1.0, 1.0, -1.0, 1.0, 1.0, 5.0);
     // projection = glm::perspective(glm::radians(45.0f), WIDTH.0f / HEIGHT.0f, 0.1f,100.0f);
     
@@ -392,7 +397,7 @@ int main(){
         modelRotation = glm::rotate(modelRotation,glm::radians(zr),glm::vec3(0.0f,0.0f,1.0f));
 
         
-        modelCube = glm::translate(glm::mat4(1.0f),glm::vec3(check(&xt)/(gridlen+1),check(&yt)/(gridlen+1),check(&zt)/(gridlen+1)));
+        modelCube = glm::translate(glm::mat4(1.0f),glm::vec3(check(&xt),check(&yt),check(&zt)));
     
         processInput(window);
 
@@ -406,24 +411,24 @@ int main(){
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRotation*modelxy));
-        glBindVertexArray(vaoxy);
-        glDrawElements(GL_LINES,total_points,GL_UNSIGNED_INT,0);
+        // glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRotation*modelxy));
+        // glBindVertexArray(vaoxy);
+        // glDrawElements(GL_LINES,total_points,GL_UNSIGNED_INT,0);
 
-        // glEnable(GL_DEPTH_TEST);
+        // // glEnable(GL_DEPTH_TEST);
 
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRotation*modelzx));
         glBindVertexArray(vaozx);
         glDrawElements(GL_LINES,total_points,GL_UNSIGNED_INT,0);
 
 
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRotation*modelyzl));
-        glBindVertexArray(vaoyz);
-        glDrawElements(GL_LINES,total_points,GL_UNSIGNED_INT,0);
+        // glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRotation*modelyzl));
+        // glBindVertexArray(vaoyz);
+        // glDrawElements(GL_LINES,total_points,GL_UNSIGNED_INT,0);
 
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRotation*modelyzr));
-        glBindVertexArray(vaoyz);
-        glDrawElements(GL_LINES,total_points,GL_UNSIGNED_INT,0);
+        // glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRotation*modelyzr));
+        // glBindVertexArray(vaoyz);
+        // glDrawElements(GL_LINES,total_points,GL_UNSIGNED_INT,0);
 
 
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRotation*modelCube));
