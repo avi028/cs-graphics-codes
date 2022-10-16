@@ -2,16 +2,9 @@
 #include <fstream>
 using namespace std;
 
-int main(){
-    int gridSize =50;
-    int step=5;
-    /**
-     * 
-     * gridSize =6;
-     * step=5;
-     * -15,-10,-5,0,5,10,15
-     * 
-     */
+
+void glacier(int gridSize ,int step){
+    
     int ySt=(-1)*(gridSize/2)*step;
     int yEd=(gridSize/2)*step;
 
@@ -73,5 +66,81 @@ int main(){
             }
         }
     }
-    return 0;
+ 
+}
+
+int main(){
+    int gridSize =50;
+    int step=5;
+    /**
+     * 
+     * gridSize =6;
+     * step=5;
+     * -15,-10,-5,0,5,10,15
+     * 
+     * 
+     * 
+     * -50 -21  -20 -01  0 14  15  24 25  30    45
+     * 
+    */
+    
+    int ySt=(-1)*(gridSize/2)*step;
+    int yEd=(gridSize/2)*step;
+
+    int zSt =(-1)*(gridSize/2)*step;
+    int zEd =(gridSize/2)*step;
+
+    int xSt=(-1)*(gridSize/2)*step;
+    int xEd=(gridSize/2)*step;
+
+
+
+    string filename = "modelTest2.raw";
+    ofstream fout(filename.c_str(),std::ios_base::out);
+    float r,g,b;
+    r=0.74902 , g=0.847059 , b=0.847059;
+
+   /*water*/
+   int hset[] = {2,14,14,10,10};
+   int wset[] = {2,3,5,10,25};
+   double colorSet[][3]={
+    {0.647059 , 0.164706 , 0.164706},
+    {0.0,1.0,0.0},
+    {1.0,1.0,1.0},
+    {1.0 , 0.5 , 0.0},
+    {0.0,0.0,1.0}
+   }; 
+   int h_size = 5;
+
+    for (int i=0;i<h_size;i++){
+        int h = hset[i];
+        int w = wset[4-i];
+
+        int xs,xe,ys,ye,zs,ze;
+
+        ys = ySt ;
+        ye = ySt + h*step;
+        ySt = ye;
+
+        xs = -w*step;
+        xe =  w*step; 
+
+        zs = -w*step;
+        ze =  w*step; 
+
+        r=colorSet[i][0];
+        g=colorSet[i][1];
+        b=colorSet[i][2];
+
+        for(int y=ys;y<ye;y+=step){
+                cout<<y<<endl;
+                for(int z=zs;z<ze;z+=step)
+                    for(int x=xs;x<xe;x+=step)
+                        fout<<x<<"\t"<<y<<"\t"<<z<<"\t"<<r<<"\t"<<g<<"\t"<<b<<"\n";
+
+        }
+        
+    }
+    fout.close();
+   return 0;
 }

@@ -380,7 +380,7 @@ int main(){
     // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
     //glm::mat4(1.0f);//
 
-    glm::mat4 projection = glm::ortho(-50.0, 50.0, -50.0, 50.0, -50.0, 50.0);;
+    glm::mat4 projection = glm::ortho(-50.0, 50.0, -50.0, 50.0, -50.0, 50.0);
     // glm::mat4 projection = glm::ortho(-10.0*gridlen, 10.0*gridlen, -10.0*gridlen, 10.0*gridlen, -100.0, 100.0);;
     // glm::mat4 projection =  glm::frustum(-1.0, 1.0, -1.0, 1.0, 1.0, 5.0);
     // projection = glm::perspective(glm::radians(45.0f), WIDTH.0f / HEIGHT.0f, 0.1f,100.0f);
