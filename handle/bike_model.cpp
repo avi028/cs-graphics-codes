@@ -14,7 +14,7 @@
 */
 
 
-#include "07_hierarchical_modelling.hpp"
+#include "bike_model.hpp"
 #include "cylinder.hpp"
 
 GLuint shaderProgram;
@@ -69,51 +69,95 @@ void initBuffersGL(void)
   // root_node = node1;
   // curr_node = node3;
 
-  // mid-join
-  Cylinder * c = new Cylinder(4,10.0,5.0,glm::vec4(1.0,1.0,0.0,1.0));
-  node1 = new csX75::HNode(NULL,c->indices,c->vertices,c->verticesColor);
-  node1->change_parameters(0.0,0.0,0.0,0.0,0.0,45.0f);
 
-  c = new Cylinder(24,2.0,20.0,glm::vec4(1.0,1.0,1.0,1.0));
-  node2 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
-  node2->change_parameters(-13.0,0.0,4.0,0.0,120.0,0.0);
 
-  node3 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
-  node3->change_parameters(13.0,0.0,4.0,0.0,60.0,0.0);
-
-  c = new Cylinder(24,3.0,15.0,glm::vec4(0.0,1.0,1.0,1.0));
-  node4 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
-  node4->change_parameters(-26.0,0.0,8.0,0.0,90.0,0.0);
-
-  node5 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
-  node5->change_parameters(26.0,0.0,8.0,0.0,90.0,0.0);
-
+  // Handle + front tyre
   float rodLen = 60.0;
   float rodAngle = -20.0;
-  c = new Cylinder(24,2.0,rodLen,glm::vec4(0.0,0.0,1.0,1.0));
-  node6 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
-  node6->change_parameters(-5.0,-7.0,-1*(rodLen/2.0),rodAngle,0.0,0.0);
-  
-  node7 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
-  node7->change_parameters(5.0,-7.0,-1*(rodLen/2.0),rodAngle,0.0,0.0);
-
   float tyre_Width = 8.0;
-  float tyre_radius = 15.0;
-  // node3 = new csX75::HNode(node3,c->indices,c->vertices,c->verticesColor);
-  // node3->change_parameters(13.0,0.0,3.0,0.0,60.0,0.0);
-  c = new Cylinder(24,tyre_radius,tyre_Width,glm::vec4(0.0,0.5,0.5,1.0));
-  node6 = new csX75::HNode(node7,c->indices,c->vertices,c->verticesColor);
-  node6->change_parameters(-5.0,0.0,(-0.5*rodLen),0.0,90.0,0.0);
+  float tyre_radius = 25.0;
+
+  Cylinder * c = new Cylinder(4,10.0,5.0,glm::vec4(1.0,1.0,0.0,1.0));
+  handle[0] = new csX75::HNode(NULL,c->indices,c->vertices,c->verticesColor);
+  handle[0]->change_parameters(0.0,0.0,10.0,0.0,0.0,0.0f);
+
+  c = new Cylinder(24,2.0,20.0,glm::vec4(1.0,1.0,1.0,1.0));
+  handle[1] = new csX75::HNode(handle[0],c->indices,c->vertices,c->verticesColor);
+  handle[1]->change_parameters(-13.0,0.0,4.0,0.0,120.0,0.0);
+
+  handle[2] = new csX75::HNode(handle[0],c->indices,c->vertices,c->verticesColor);
+  handle[2]->change_parameters(13.0,0.0,4.0,0.0,60.0,0.0);
+
+  c = new Cylinder(24,3.0,15.0,glm::vec4(0.0,1.0,1.0,1.0));
+  handle[3] = new csX75::HNode(handle[0],c->indices,c->vertices,c->verticesColor);
+  handle[3]->change_parameters(-26.0,0.0,8.0,0.0,90.0,0.0);
+
+  handle[4] = new csX75::HNode(handle[0],c->indices,c->vertices,c->verticesColor);
+  handle[4]->change_parameters(26.0,0.0,8.0,0.0,90.0,0.0);
+
+  c = new Cylinder(24,2.0,rodLen,glm::vec4(0.0,0.0,1.0,1.0));
+  handle[5] = new csX75::HNode(handle[0],c->indices,c->vertices,c->verticesColor);
+  handle[5]->change_parameters(-5.0,-12.0,-1*(rodLen/2.0),rodAngle,0.0,0.0);
+  
+  handle[6] = new csX75::HNode(handle[0],c->indices,c->vertices,c->verticesColor);
+  handle[6]->change_parameters(5.0,-12.0,-1*(rodLen/2.0),rodAngle,0.0,0.0);
+
+  //tyre
+  c = new Cylinder(48,tyre_radius,tyre_Width,glm::vec4(0.0,0.5,0.5,1.0));
+  handle[7] = new csX75::HNode(handle[5],c->indices,c->vertices,c->verticesColor);
+  handle[7]->change_parameters(5.0,0.0,(-0.5*rodLen),0.0,90.0,0.0);
+
+  // body frame : 
+  c = new Cylinder(24,10,6,glm::vec4(0.7,0.7,0.7,1.0));
+  node1 = new csX75::HNode(NULL,c->indices,c->vertices,c->verticesColor);
+  node1->change_parameters(0.0,0.0,0.0,0.0,0.0,0.0);
 
   c = new Cylinder(24,2.0,40,glm::vec4(0.0,0.0,1.0,1.0));
-  node7 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
-  node7->change_parameters(-5.0,40.0,0.0,70.0,0.0,0.0);
+  node2 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
+  node2->change_parameters(-5.0,20.0,-5.0,70.0,0.0,0.0);
 
-  node8 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
-  node8->change_parameters(5.0,40.0,0.0,70.0,0.0,0.0);
+  c = new Cylinder(24,2.0,50,glm::vec4(0.0,0.0,1.0,1.0));
+  node3 = new csX75::HNode(node2,c->indices,c->vertices,c->verticesColor);
+  node3->change_parameters(0.0,15.0,-40.0,40.0,0.0,0.0);
   
-  root_node = node1;
-  curr_node = node1;
+  node4 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
+  node4->change_parameters(-5.0,15.0,-20.0,20.0,0.0,0.0);
+
+  c = new Cylinder(24,2.0,30,glm::vec4(0.0,0.0,1.0,1.0));
+  node5 = new csX75::HNode(node4,c->indices,c->vertices,c->verticesColor);
+  node5->change_parameters(0.0,15.0,-30.0,70.0,0.0,0.0);
+
+  c = new Cylinder(24,2.0,45,glm::vec4(0.0,0.0,1.0,1.0));
+  node6 = new csX75::HNode(node5,c->indices,c->vertices,c->verticesColor);
+  node6->change_parameters(0.0,20.0,-20.0,70.0,0.0,0.0);
+
+
+
+  c = new Cylinder(24,2.0,40,glm::vec4(0.0,0.0,1.0,1.0));
+  node2 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
+  node2->change_parameters(5.0,20.0,-5.0,70.0,0.0,0.0);
+
+  c = new Cylinder(24,2.0,50,glm::vec4(0.0,0.0,1.0,1.0));
+  node3 = new csX75::HNode(node2,c->indices,c->vertices,c->verticesColor);
+  node3->change_parameters(0.0,15.0,-40.0,40.0,0.0,0.0);
+  
+  node4 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
+  node4->change_parameters(5.0,15.0,-20.0,20.0,0.0,0.0);
+
+  c = new Cylinder(24,2.0,30,glm::vec4(0.0,0.0,1.0,1.0));
+  node5 = new csX75::HNode(node4,c->indices,c->vertices,c->verticesColor);
+  node5->change_parameters(0.0,15.0,-30.0,70.0,0.0,0.0);
+
+  c = new Cylinder(24,2.0,45,glm::vec4(0.0,0.0,1.0,1.0));
+  node6 = new csX75::HNode(node5,c->indices,c->vertices,c->verticesColor);
+  node6->change_parameters(0.0,20.0,-20.0,70.0,0.0,0.0);
+
+  // add handle to body frame
+  node1->add_child(handle[0]);
+
+
+
+  root_node = curr_node = node1;
 }
 
 void renderGL(void)
@@ -144,7 +188,7 @@ void renderGL(void)
 
   matrixStack.push_back(view_matrix);
 
-  node1->render_tree();
+  root_node->render_tree();
 
 }
 
