@@ -50,9 +50,18 @@ std::vector<glm::mat4> matrixStack;
 
 csX75::HNode* root_node;
 csX75::HNode* curr_node;
+
+std::vector<csX75::HNode * >  nodeSet;
+
 csX75::HNode* node1;
 csX75::HNode* node2;
 csX75::HNode* node3;
+csX75::HNode* node4;
+csX75::HNode* node5;
+csX75::HNode* node6;
+csX75::HNode* node7;
+csX75::HNode* node8;
+
 
 //-------------------------------------------------------------------------
 
