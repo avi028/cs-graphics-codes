@@ -16,6 +16,7 @@
 
 #include "bike_model.hpp"
 #include "cylinder.hpp"
+#include "frustum.hpp"
 
 GLuint shaderProgram;
 
@@ -155,8 +156,18 @@ void initBuffersGL(void)
   // add handle to body frame
   node1->add_child(handle[0]);
 
+  // engine 
+  float h,w,l;
+  w=10;
+  h=25;
+  l=30;
 
-
+  Frustum * f = new Frustum(h,w,l,glm::vec4(1.0,0.0,0.0,1.0));
+  node2 = new csX75::HNode(node1,f->indices,f->vc,f->verticesColor); 
+  node2->change_parameters(5.0,20.0,-40.0,0.0,0.0,90.0);
+  c = new Cylinder(24,10.0,20,glm::vec4(0.0,0.0,1.0,1.0));
+  node3 = new csX75::HNode(node2,c->indices,c->vertices,c->verticesColor);
+  node3->change_parameters(10.0,5.0,15.0,90.0,0.0,0.0);
   root_node = curr_node = node1;
 }
 
