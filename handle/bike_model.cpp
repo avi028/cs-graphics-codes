@@ -168,6 +168,21 @@ void initBuffersGL(void)
   c = new Cylinder(24,10.0,20,glm::vec4(0.0,0.0,1.0,1.0));
   node3 = new csX75::HNode(node2,c->indices,c->vertices,c->verticesColor);
   node3->change_parameters(10.0,5.0,15.0,90.0,0.0,0.0);
+
+  //  connect the back tyre to the bike
+  f = new Frustum(5,10,55,glm::vec4(0.5,0.5,0.5,1.0));
+  node4 = new csX75::HNode(node3,f->indices,f->vc,f->verticesColor); 
+  node4->change_parameters(0.0,-5.0,5.0,0.0,0.0,-25.0);
+
+  c = new Cylinder(48,tyre_radius,tyre_Width,glm::vec4(0.0,0.5,0.5,1.0));
+  node5 = new csX75::HNode(node4,c->indices,c->vertices,c->verticesColor);
+  node5->change_parameters(50.0,5.0,-5.0,0.0,0.0,0.0);
+
+  // seat of the bike
+  f = new Frustum(10,15,50,glm::vec4(0.3,0.3,0.1,1.0));
+  node2 = new csX75::HNode(node1,f->indices,f->vc,f->verticesColor); 
+  node2->change_parameters(7.0,10.0,-10.0,0.0,0.0,90.0);
+
   root_node = curr_node = node1;
 }
 

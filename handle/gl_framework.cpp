@@ -14,9 +14,10 @@ namespace csX75
     //Set depth buffer furthest depth
     glClearDepth(1.0);
     //Set depth test to less-than
-    glDepthFunc(GL_LESS);
+    //glDepthFunc(GL_LESS);
     //Enable depth testing
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
   }
   
   //!GLFW Error Callback
