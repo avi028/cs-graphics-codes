@@ -22,13 +22,17 @@ namespace csX75	 {
 		//glm::vec4 * vertices;
 		//glm::vec4 * colors;
 		GLfloat tx,ty,tz,rx,ry,rz;
-
+		
 		GLuint vao,vbo,ibo;
+
+		GLuint vaoLines,vboLines,iboLines;
+		bool drawLines;
 
 		glm::mat4 rotation;
 		glm::mat4 translation;
 
 		int indicesCount;
+		int lineIndicesCount ; 
 		
 		std::vector<HNode*> children;
 		HNode* parent;
@@ -36,7 +40,7 @@ namespace csX75	 {
 		void update_matrices();
 
 	  public:
-		HNode (HNode* parent,std::vector<glm::uvec3> indices,std::vector<glm::vec4>vertices,std::vector<glm::vec4> vertexColors);
+		HNode (HNode* parent,std::vector<glm::uvec3> indices,std::vector<glm::vec4>vertices,std::vector<glm::vec4> vertexColors,bool drawLines=false);
 		//HNode (HNode* , glm::vec4*,  glm::vec4*,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
 
 		void add_child(HNode*);
@@ -53,6 +57,7 @@ namespace csX75	 {
 		void set_rx(float angle);
 		void set_ry(float angle);
 		void set_rz(float angle);
+		void setvaoLines(std::vector<unsigned int> indices,std::vector<glm::vec4>vertices,std::vector<glm::vec4> vertexColors);
 	};
 
 	glm::mat4* multiply_stack(std::vector <glm::mat4> );

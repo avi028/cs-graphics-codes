@@ -2,12 +2,17 @@
 #include "cylinder.hpp"
 
 
-Cylinder::Cylinder(int sector,float radius,float height,glm::vec4 color){
+Cylinder::Cylinder(int sector,float radius,float height,glm::vec4 color,bool drawlines){
     this->sector = sector;
     this->radius = radius;
     this->height = height;
     this->color = color;
     this->GenCylinder();
+    this->drawLine = false;
+    if(drawlines){
+        drawLine = true;
+        GenLines(glm::vec4(0.0,0.0,0.0,1.0),4);
+    }
 }
 
 
@@ -15,6 +20,74 @@ int Cylinder::getindexCountCylinder(){
     return indexCount;
 }
 
+
+/**
+ * @brief Get the Vertices of the cylinder as per the radius and height
+ * 
+ * @param sectors 
+ * @param radius 
+ * @param height 
+ * @param color
+ * base center ........base side verties ........  top center vertex ....... top side vertices
+ * 4 + 4 ............. sector*(4+4) .............. 4+4  .....................sector*(4+4).........
+ * @return std::vector<glm::vec4> 
+ */
+void Cylinder::getLineVertices(int sectors, float radius,float height,glm::vec4 color,int step){
+    std::vector<float> uv = getUnitVertices(sectors);
+
+    for(int i=0;i<2;i++){
+        int h = -height/2.0f  + i*height;
+        float x,y,z;
+        //  base center/top center 
+        x=0.0;
+        y=0.0;
+        z=h;
+        if(i==0)
+            baseVertex = lineVertices.size();
+        else
+            topVertex = lineVertices.size();
+
+        lineVertices.push_back(glm::vec4(x,y,z,1.0));
+        lineColor.push_back(color);
+
+        // side vertices 
+        for(int j=0,uvItr=0;j<=sectors;j+=step){
+            
+            x = uv[uvItr++]*radius;
+            y = uv[uvItr++]*radius;
+            uvItr++;
+            uvItr+=((step-1)*3);
+            z = h;
+            lineVertices.push_back(glm::vec4(x,y,z,1.0));
+            lineColor.push_back(color);
+        }
+    }
+}
+
+/**
+ * @brief Get line indices of the top and bottom circles
+ * 
+ * @param sectors 
+ */
+
+void Cylinder::getLineIndices(int sectors, int step){
+
+    // bottom circle
+    unsigned int k1= baseVertex ;// base center
+    unsigned int k2;
+    for (int i=1;i<=(sectors);i+=step){
+        k2=k1+i;
+        this->lineIndices.push_back(k1);
+        this->lineIndices.push_back(k2);
+    }                
+    // topcircle
+    k1=topVertex;
+    for (int i=1;i<=(sectors);i+=step){
+        k2=k1+i;
+        this->lineIndices.push_back(k1);
+        this->lineIndices.push_back(k2);
+    }
+}
 /**
  * @brief Get the vertices of unit circle as per given sector
  * 
@@ -139,4 +212,8 @@ void Cylinder::GenCylinder(){
     getIndices(sector);    
 }
 
+void Cylinder::GenLines(glm::vec4 color, int step){
 
+    this->getLineVertices(sector,radius,height,color,step);
+    this->getLineIndices(this->sector,step);
+}

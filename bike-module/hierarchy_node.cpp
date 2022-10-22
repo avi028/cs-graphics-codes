@@ -8,7 +8,7 @@ extern std::vector<glm::mat4> matrixStack;
 namespace csX75
 {
 
-	HNode::HNode(HNode* a_parent, std::vector<glm::uvec3> indices,std::vector<glm::vec4>vertices,std::vector<glm::vec4> vertexColors){
+	HNode::HNode(HNode* a_parent, std::vector<glm::uvec3> indices,std::vector<glm::vec4>vertices,std::vector<glm::vec4> vertexColors,bool drawLines){
 
 		// initialize vao vbo and ibo
 		//Ask GL for a Vertex Attribute Objects (vao)
@@ -18,11 +18,11 @@ namespace csX75
 		//Ask GL for a indidex Buffer Object (ibo)
 		glGenBuffers(1,&ibo);
 
+		this->drawLines = drawLines;
 		//bind them
 		glBindVertexArray (vao);
 		glBindBuffer (GL_ARRAY_BUFFER, vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,ibo);
-
 		glBufferData(GL_ARRAY_BUFFER,vertices.size()*sizeof(glm::vec4) + vertexColors.size()*sizeof(glm::vec4),NULL,GL_STATIC_DRAW);
 		glBufferSubData( GL_ARRAY_BUFFER, 0, vertices.size()*sizeof(glm::vec4),vertices.data());
 		glBufferSubData( GL_ARRAY_BUFFER, vertices.size()*sizeof(glm::vec4), vertexColors.size()*sizeof(glm::vec4), vertexColors.data() );
@@ -88,6 +88,12 @@ namespace csX75
 		glBindVertexArray (vao);
 		//glDrawArrays(GL_TRIANGLES, 0, num_vertices);
     	glDrawElements(GL_TRIANGLES,indicesCount,GL_UNSIGNED_INT,NULL);
+
+		if(drawLines){
+			// std::cout<<"in line\n";
+			glBindVertexArray(vaoLines);
+			glDrawElements(GL_LINES,lineIndicesCount,GL_UNSIGNED_INT,NULL);
+		}
 
 		// for memory 
 		delete ms_mult;
@@ -162,6 +168,36 @@ namespace csX75
 	void HNode::set_rz(float angle){
 		rz=angle;
 		update_matrices();
+	}
+
+	void HNode::setvaoLines(std::vector<unsigned int> indices,std::vector<glm::vec4>vertices,std::vector<glm::vec4> vertexColors){
+		// initialize vao vbo and ibo
+		//Ask GL for a Vertex Attribute Objects (vao)
+		glGenVertexArrays (1, &vaoLines);
+		//Ask GL for aVertex Buffer Object (vbo)
+		glGenBuffers (1, &vboLines);
+		//Ask GL for a indidex Buffer Object (ibo)
+		glGenBuffers(1,&iboLines);
+
+		//bind them
+		glBindVertexArray (vaoLines);
+		glBindBuffer (GL_ARRAY_BUFFER, vboLines);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,iboLines);
+
+		glBufferData(GL_ARRAY_BUFFER,vertices.size()*sizeof(glm::vec4) + vertexColors.size()*sizeof(glm::vec4),NULL,GL_STATIC_DRAW);
+		glBufferSubData( GL_ARRAY_BUFFER, 0, vertices.size()*sizeof(glm::vec4),vertices.data());
+		glBufferSubData( GL_ARRAY_BUFFER, vertices.size()*sizeof(glm::vec4), vertexColors.size()*sizeof(glm::vec4), vertexColors.data() );
+   		
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*sizeof(unsigned int),indices.data(),GL_STATIC_DRAW);
+
+		//setup the vertex array as per the shader
+		glEnableVertexAttribArray( vPosition );
+		glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+
+		glEnableVertexAttribArray( vColor );
+		glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertices.size()*sizeof(glm::vec4)));
+		lineIndicesCount = indices.size();
+
 	}
 
 }

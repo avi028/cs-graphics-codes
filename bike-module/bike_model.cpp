@@ -92,8 +92,9 @@ void initBuffersGL(void)
   handle[6]->change_parameters(5.0,-12.0,-1*(rodLen/2.0),rodAngle,0.0,0.0);
 
   //tyre front
-  c = new Cylinder(48,tyre_radius,tyre_Width,glm::vec4(0.0,0.5,0.5,1.0));
-  handle[7] = new csX75::HNode(handle[5],c->indices,c->vertices,c->verticesColor);
+  c = new Cylinder(48,tyre_radius,tyre_Width,glm::vec4(0.0,0.5,0.5,1.0),true);
+  handle[7] = new csX75::HNode(handle[5],c->indices,c->vertices,c->verticesColor,true);
+  handle[7]->setvaoLines(c->lineIndices,c->lineVertices,c->lineColor);
   handle[7]->change_parameters(5.0,0.0,(-0.5*rodLen),0.0,90.0,0.0);
   tyref = handle[7];
 
@@ -159,8 +160,9 @@ void initBuffersGL(void)
   node4 = new csX75::HNode(node3,f->indices,f->vc,f->verticesColor); 
   node4->change_parameters(0.0,-5.0,5.0,0.0,0.0,-25.0);
 
-  c = new Cylinder(48,tyre_radius,tyre_Width,glm::vec4(0.0,0.5,0.5,1.0));
-  node5 = new csX75::HNode(node4,c->indices,c->vertices,c->verticesColor);
+  c = new Cylinder(48,tyre_radius,tyre_Width,glm::vec4(0.0,0.5,0.5,1.0),true);
+  node5 = new csX75::HNode(node4,c->indices,c->vertices,c->verticesColor,true);
+  node5->setvaoLines(c->lineIndices,c->lineVertices,c->lineColor);
   node5->change_parameters(50.0,5.0,-5.0,0.0,0.0,0.0);
   tyreb = node5;
 
@@ -207,8 +209,9 @@ void renderGL(void)
 
   matrixStack.push_back(view_matrix);
   handlejoin->set_rz(handle_rot);
-//   tyref_rot;
-//   tyreb_rot;
+  tyref->set_rz(tyref_rot);
+  tyreb->set_rz(tyreb_rot);
+
   root_node->render_tree();
 
 }

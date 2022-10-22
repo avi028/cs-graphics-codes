@@ -71,10 +71,20 @@ namespace csX75
       c_zrot -= 1.0;
     else if (key == GLFW_KEY_E  && action == GLFW_PRESS)
       c_zrot += 1.0;   
+
+    // bike-control
     else if (key == GLFW_KEY_Z  && action == GLFW_PRESS)
       handle_rot= (handle_rot-5.0) < -45.0 ? -45.0 : (handle_rot-5.0);   
     else if (key == GLFW_KEY_C  && action == GLFW_PRESS)
       handle_rot= (handle_rot+5.0) > 45.0 ? 45.0 : (handle_rot+5.0);   
+    else if (key == GLFW_KEY_I  && action == GLFW_PRESS)
+      tyref_rot-=5.0;
+    else if (key == GLFW_KEY_O  && action == GLFW_PRESS)
+      tyref_rot+=5.0;
+    else if (key == GLFW_KEY_T  && action == GLFW_PRESS)
+      tyreb_rot-=5.0;
+    else if (key == GLFW_KEY_Y  && action == GLFW_PRESS)
+      tyreb_rot+=5.0;
   }
 };  
   
