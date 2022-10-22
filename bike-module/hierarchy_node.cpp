@@ -138,7 +138,6 @@ namespace csX75
 		update_matrices();
 	}
 
-
 	glm::mat4* multiply_stack(std::vector<glm::mat4> matStack){
 		glm::mat4* mult;
 		mult = new glm::mat4(1.0f);
@@ -148,6 +147,21 @@ namespace csX75
 		}	
 
 		return mult;
+	}
+
+	void HNode::set_rx(float angle){
+		rx=angle;
+		update_matrices();
+	}
+
+	void HNode::set_ry(float angle){
+		ry=angle;
+		update_matrices();
+	}
+
+	void HNode::set_rz(float angle){
+		rz=angle;
+		update_matrices();
 	}
 
 }

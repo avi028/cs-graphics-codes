@@ -1,7 +1,7 @@
 #include "gl_framework.hpp"
 #include "hierarchy_node.hpp"
 
-extern GLfloat c_xrot,c_yrot,c_zrot;
+extern GLfloat c_xrot,c_yrot,c_zrot,handle_rot,tyref_rot,tyreb_rot;
 extern bool enable_perspective;
 extern csX75::HNode* node1, *node2, *node3,*curr_node;
 namespace csX75
@@ -14,7 +14,7 @@ namespace csX75
     //Set depth buffer furthest depth
     glClearDepth(1.0);
     //Set depth test to less-than
-    //glDepthFunc(GL_LESS);
+    glDepthFunc(GL_LEQUAL);
     //Enable depth testing
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -71,6 +71,10 @@ namespace csX75
       c_zrot -= 1.0;
     else if (key == GLFW_KEY_E  && action == GLFW_PRESS)
       c_zrot += 1.0;   
+    else if (key == GLFW_KEY_Z  && action == GLFW_PRESS)
+      handle_rot= (handle_rot-5.0) < -45.0 ? -45.0 : (handle_rot-5.0);   
+    else if (key == GLFW_KEY_C  && action == GLFW_PRESS)
+      handle_rot= (handle_rot+5.0) > 45.0 ? 45.0 : (handle_rot+5.0);   
   }
 };  
   

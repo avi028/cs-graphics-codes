@@ -49,6 +49,10 @@ namespace csX75	 {
 		void dec_rx();
 		void dec_ry();
 		void dec_rz();
+		
+		void set_rx(float angle);
+		void set_ry(float angle);
+		void set_rz(float angle);
 	};
 
 	glm::mat4* multiply_stack(std::vector <glm::mat4> );

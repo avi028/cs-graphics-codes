@@ -59,19 +59,6 @@ void initBuffersGL(void)
   vColor = glGetAttribLocation( shaderProgram, "vColor" ); 
   uModelViewMatrix = glGetUniformLocation( shaderProgram, "uModelViewMatrix");
 
-
-  //note that the buffers are initialized in the respective constructors
- 
-  // node1 = new csX75::HNode(NULL,num_vertices,v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  // node2 = new csX75::HNode(node1,num_vertices,v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  // node2->change_parameters(2.0,0.0,0.0,0.0,0.0,0.0);
-  // node3 = new csX75::HNode(node2,num_vertices,v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  // node3->change_parameters(2.0,0.0,0.0,0.0,0.0,0.0);
-  // root_node = node1;
-  // curr_node = node3;
-
-
-
   // Handle + front tyre
   float rodLen = 60.0;
   float rodAngle = -20.0;
@@ -80,7 +67,8 @@ void initBuffersGL(void)
 
   Cylinder * c = new Cylinder(4,10.0,5.0,glm::vec4(1.0,1.0,0.0,1.0));
   handle[0] = new csX75::HNode(NULL,c->indices,c->vertices,c->verticesColor);
-  handle[0]->change_parameters(0.0,0.0,10.0,0.0,0.0,0.0f);
+  handle[0]->change_parameters(0.0,0.0,0.0,0.0,0.0,0.0f);
+  handlejoin = handle[0];
 
   c = new Cylinder(24,2.0,20.0,glm::vec4(1.0,1.0,1.0,1.0));
   handle[1] = new csX75::HNode(handle[0],c->indices,c->vertices,c->verticesColor);
@@ -103,25 +91,26 @@ void initBuffersGL(void)
   handle[6] = new csX75::HNode(handle[0],c->indices,c->vertices,c->verticesColor);
   handle[6]->change_parameters(5.0,-12.0,-1*(rodLen/2.0),rodAngle,0.0,0.0);
 
-  //tyre
+  //tyre front
   c = new Cylinder(48,tyre_radius,tyre_Width,glm::vec4(0.0,0.5,0.5,1.0));
   handle[7] = new csX75::HNode(handle[5],c->indices,c->vertices,c->verticesColor);
   handle[7]->change_parameters(5.0,0.0,(-0.5*rodLen),0.0,90.0,0.0);
+  tyref = handle[7];
 
   // body frame : 
   c = new Cylinder(24,10,6,glm::vec4(0.7,0.7,0.7,1.0));
-  node1 = new csX75::HNode(NULL,c->indices,c->vertices,c->verticesColor);
-  node1->change_parameters(0.0,0.0,0.0,0.0,0.0,0.0);
+  bodyframe = new csX75::HNode(NULL,c->indices,c->vertices,c->verticesColor);
+  bodyframe->change_parameters(0.0,0.0,0.0,0.0,0.0,0.0);
 
   c = new Cylinder(24,2.0,40,glm::vec4(0.0,0.0,1.0,1.0));
-  node2 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
+  node2 = new csX75::HNode(bodyframe,c->indices,c->vertices,c->verticesColor);
   node2->change_parameters(-5.0,20.0,-5.0,70.0,0.0,0.0);
 
   c = new Cylinder(24,2.0,50,glm::vec4(0.0,0.0,1.0,1.0));
   node3 = new csX75::HNode(node2,c->indices,c->vertices,c->verticesColor);
   node3->change_parameters(0.0,15.0,-40.0,40.0,0.0,0.0);
   
-  node4 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
+  node4 = new csX75::HNode(bodyframe,c->indices,c->vertices,c->verticesColor);
   node4->change_parameters(-5.0,15.0,-20.0,20.0,0.0,0.0);
 
   c = new Cylinder(24,2.0,30,glm::vec4(0.0,0.0,1.0,1.0));
@@ -132,17 +121,15 @@ void initBuffersGL(void)
   node6 = new csX75::HNode(node5,c->indices,c->vertices,c->verticesColor);
   node6->change_parameters(0.0,20.0,-20.0,70.0,0.0,0.0);
 
-
-
   c = new Cylinder(24,2.0,40,glm::vec4(0.0,0.0,1.0,1.0));
-  node2 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
+  node2 = new csX75::HNode(bodyframe,c->indices,c->vertices,c->verticesColor);
   node2->change_parameters(5.0,20.0,-5.0,70.0,0.0,0.0);
 
   c = new Cylinder(24,2.0,50,glm::vec4(0.0,0.0,1.0,1.0));
   node3 = new csX75::HNode(node2,c->indices,c->vertices,c->verticesColor);
   node3->change_parameters(0.0,15.0,-40.0,40.0,0.0,0.0);
   
-  node4 = new csX75::HNode(node1,c->indices,c->vertices,c->verticesColor);
+  node4 = new csX75::HNode(bodyframe,c->indices,c->vertices,c->verticesColor);
   node4->change_parameters(5.0,15.0,-20.0,20.0,0.0,0.0);
 
   c = new Cylinder(24,2.0,30,glm::vec4(0.0,0.0,1.0,1.0));
@@ -153,9 +140,6 @@ void initBuffersGL(void)
   node6 = new csX75::HNode(node5,c->indices,c->vertices,c->verticesColor);
   node6->change_parameters(0.0,20.0,-20.0,70.0,0.0,0.0);
 
-  // add handle to body frame
-  node1->add_child(handle[0]);
-
   // engine 
   float h,w,l;
   w=10;
@@ -163,10 +147,11 @@ void initBuffersGL(void)
   l=30;
 
   Frustum * f = new Frustum(h,w,l,glm::vec4(1.0,0.0,0.0,1.0));
-  node2 = new csX75::HNode(node1,f->indices,f->vc,f->verticesColor); 
-  node2->change_parameters(5.0,20.0,-40.0,0.0,0.0,90.0);
+  engine = new csX75::HNode(NULL,f->indices,f->vc,f->verticesColor); 
+  engine->change_parameters(-5.0,-15.0,-10.0,-90.0,0.0,0.0);
+  
   c = new Cylinder(24,10.0,20,glm::vec4(0.0,0.0,1.0,1.0));
-  node3 = new csX75::HNode(node2,c->indices,c->vertices,c->verticesColor);
+  node3 = new csX75::HNode(engine,c->indices,c->vertices,c->verticesColor);
   node3->change_parameters(10.0,5.0,15.0,90.0,0.0,0.0);
 
   //  connect the back tyre to the bike
@@ -177,13 +162,21 @@ void initBuffersGL(void)
   c = new Cylinder(48,tyre_radius,tyre_Width,glm::vec4(0.0,0.5,0.5,1.0));
   node5 = new csX75::HNode(node4,c->indices,c->vertices,c->verticesColor);
   node5->change_parameters(50.0,5.0,-5.0,0.0,0.0,0.0);
+  tyreb = node5;
 
   // seat of the bike
-  f = new Frustum(10,15,50,glm::vec4(0.3,0.3,0.1,1.0));
-  node2 = new csX75::HNode(node1,f->indices,f->vc,f->verticesColor); 
-  node2->change_parameters(7.0,10.0,-10.0,0.0,0.0,90.0);
+  f = new Frustum(6,20,50,glm::vec4(0.3,0.3,0.1,1.0));
+  node3 = new csX75::HNode(bodyframe,f->indices,f->vc,f->verticesColor); 
+  node3->change_parameters(10.0,10.0,-10.0,0.0,0.0,90.0);
 
-  root_node = curr_node = node1;
+  // add bodyframe to engine
+  engine->add_child(bodyframe);
+  bodyframe->change_parameters(-15.0,5.0,42.0,0.0,0.0,-90.0);
+  // add handle to body frame
+  bodyframe->add_child(handlejoin);
+  handlejoin->change_parameters(0.0,0.0,10.0,0.0,0.0,0.0);
+
+  root_node = curr_node = engine;
 }
 
 void renderGL(void)
@@ -213,7 +206,9 @@ void renderGL(void)
   view_matrix = projection_matrix*lookat_matrix;
 
   matrixStack.push_back(view_matrix);
-
+  handlejoin->set_rz(handle_rot);
+//   tyref_rot;
+//   tyreb_rot;
   root_node->render_tree();
 
 }

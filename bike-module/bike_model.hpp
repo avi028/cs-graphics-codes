@@ -65,6 +65,9 @@ csX75::HNode * handle[8];
 csX75::HNode* node7;
 csX75::HNode* node8;
 
+/// @brief 
+csX75::HNode* tyref, *tyreb, *handlejoin, *engine , *bodyframe;
+float handle_rot,tyref_rot,tyreb_rot;
 
 //-------------------------------------------------------------------------
 
