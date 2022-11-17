@@ -1,9 +1,0 @@
-{
-    "makefile.launchConfigurations": [
-        {
-            "cwd": "/home/avi/cs675/cs-graphics-codes/handle",
-            "binaryPath": "/home/avi/cs675/cs-graphics-codes/handle/07_hierarchical_modelling",
-            "binaryArgs": []
-        }
-    ]
-}
